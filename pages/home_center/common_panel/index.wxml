@@ -1,0 +1,55 @@
+<!--miniprogram/pages/home_center/common_panel/index.js.wxml-->
+<wxs src="./index.wxs" module="utils" />
+
+<image class="common-panel-backgroud" src="{{forest}}" />
+<!-- <navbar device_name="{{device_name}}" bind:jumpTodeviceEditPage="jumpTodeviceEditPage" /> -->
+
+<view class="switch" bind:tap="switchTap">
+  <view>ON</view>
+</view>
+<view class="tips">插座已{{titleItem.value?'开启':'关闭'}}</view>
+<!-- <view class="common-panel-header">
+  <view class="common-panel-header-block">
+    <view class="common-panel-header-dpName">{{titleItem.name}}</view>
+    <view class="common-panel-header-dpValue">{{titleItem.value}}</view>
+  </view>
+</view> -->
+<van-tabbar active="{{ active }}" active-color="#07c160" bind:change="onChange">
+  <van-tabbar-item icon="failure">电量</van-tabbar-item>
+  <van-tabbar-item icon="clock-o">定时</van-tabbar-item>
+  <van-tabbar-item icon="underway-o">倒计时</van-tabbar-item>
+  <van-tabbar-item icon="chart-trending-o">用电量</van-tabbar-item>
+</van-tabbar>
+<!-- <block wx:if="{{isRoDpListShow}}">
+  <view class="statuslist">
+    <block wx:for="{{roDpList}}" wx:key="{{item.code}}" wx:for-item="item" wx:for-index='idx'>
+      <view class="{{utils.countDpItem(roDpListLength,idx)}}">
+        <view class="roDpItem-dpName">{{item.code}}</view>
+        <view class="roDpItem-status">{{item.value}}</view>
+      </view>
+    </block>
+  </view>
+</block> -->
+<view class="scroll-view">
+  <block wx:if="{{isRwDpListShow}}">
+    <block wx:for="{{rwDpList}}" wx:key="{{item.code}}" wx:for-item="item">
+      <view class="switch-btn" data-value="{{item.value}}" bind:tap="sendDp" data-dp-code="{{item.code}}" data-dp-name="{{item.name}}" wx:if="{{item.type === 'Boolean' && active === 0}}">
+        <text>开关</text>
+        <view class="switch-border {{item.value?'open':''}}">
+          <view class="switch-radius"></view>
+        </view>
+      </view>
+      <!-- <block wx:if="{{item.type === 'Boolean' && active === 0}}">
+        <Boolean model:isChecked="{{item.value}}" dpCode="{{item.code}}" dpName="{{item.name}}" bind:sendDp="sendDp" />
+      </block> -->
+      <block wx:if="{{item.type === 'Integer'  && active === 1}}">
+        <Integer model:value="{{item.value}}" values="{{item.values}}" dpCode="{{item.code}}" dpName="{{item.name}}"
+          bind:sendDp="sendDp" />
+      </block>
+      <!-- <block wx:if="{{item.type === 'Enum'}}">
+        <Enum model:value="{{item.value}}" values="{{item.values}}" dpCode="{{item.code}}" dpName="{{item.name}}"
+          bind:sendDp="sendDp" />
+      </block> -->
+    </block>
+  </block>
+</view>
